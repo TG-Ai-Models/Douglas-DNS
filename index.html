@@ -1,0 +1,375 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Douglas DNS | AI Domain Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Custom scrollbar for mock terminal */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0a0a] text-zinc-300 min-h-screen selection:bg-zinc-800 selection:text-white flex flex-col relative overflow-x-hidden">
+
+    <!-- Global Background Effects -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden h-screen">
+        <div class="absolute top-[-20%] left-[20%] w-[50%] h-[50%] bg-indigo-500/10 blur-[120px] rounded-full"></div>
+        <div class="absolute top-[20%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 blur-[120px] rounded-full"></div>
+    </div>
+
+    <!-- View: Landing Page -->
+    <div id="landing-page" class="flex flex-col min-h-screen w-full relative z-10">
+        <!-- Navigation -->
+        <nav class="fixed top-0 w-full z-50 border-b border-white/[0.05] bg-[#0a0a0a]/80 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
+                <div class="flex items-center gap-8">
+                    <a href="#" class="text-zinc-100 font-medium text-lg tracking-tighter">
+                        DDNS
+                    </a>
+                    <div class="hidden md:flex items-center gap-6 text-sm font-light text-zinc-400">
+                        <a href="#features" class="hover:text-zinc-100 transition-colors">Features</a>
+                        <a href="#how-it-works" class="hover:text-zinc-100 transition-colors">How it works</a>
+                        <a href="#pricing" class="hover:text-zinc-100 transition-colors">Pricing</a>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 text-sm font-medium">
+                    <button onclick="toggleView('login')" class="hidden md:block text-zinc-400 hover:text-zinc-100 transition-colors">
+                        Sign in
+                    </button>
+                    <button onclick="toggleView('signup')" class="bg-zinc-100 text-black px-3 py-1.5 rounded-md hover:bg-white transition-colors">
+                        Sign up
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-grow pt-32 pb-24">
+            <!-- Hero Section -->
+            <section class="max-w-7xl mx-auto px-6 text-center">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs text-zinc-300 font-light mb-8">
+                    <iconify-icon icon="solar:stars-linear" class="text-indigo-400"></iconify-icon>
+                    <span>Voiceflow Integration Active</span>
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl font-medium tracking-tighter text-zinc-100 max-w-4xl mx-auto leading-tight">
+                    DNS management, <br class="hidden md:block">
+                    <span class="bg-gradient-to-r from-zinc-100 to-zinc-500 bg-clip-text text-transparent">simplified by AI.</span>
+                </h1>
+                
+                <p class="mt-6 text-base md:text-lg text-zinc-400 max-w-2xl mx-auto font-light leading-relaxed">
+                    Meet Douglas. Your intelligent assistant for configuring records, migrating domains, and troubleshooting propagation issues in seconds using natural language.
+                </p>
+                
+                <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button onclick="window.voiceflow?.chat?.open()" class="bg-zinc-100 text-black px-5 py-2.5 rounded-md text-sm font-medium hover:bg-white transition-colors flex items-center gap-2">
+                        <iconify-icon icon="solar:chat-round-line-linear" width="18"></iconify-icon>
+                        Chat with Douglas
+                    </button>
+                    <a href="#features" class="px-5 py-2.5 rounded-md text-sm font-medium border border-white/10 hover:bg-white/5 transition-colors flex items-center gap-2 text-zinc-300">
+                        <iconify-icon icon="solar:book-bookmark-linear" width="18"></iconify-icon>
+                        Read Docs
+                    </a>
+                </div>
+            </section>
+
+            <!-- Mock Terminal / Demo UI -->
+            <section class="max-w-4xl mx-auto px-6 mt-20">
+                <div class="rounded-xl border border-white/10 bg-[#0f0f0f] shadow-2xl overflow-hidden backdrop-blur-sm">
+                    <div class="h-10 border-b border-white/5 flex items-center px-4 gap-2 bg-[#141414]">
+                        <div class="w-3 h-3 rounded-full bg-zinc-800"></div>
+                        <div class="w-3 h-3 rounded-full bg-zinc-800"></div>
+                        <div class="w-3 h-3 rounded-full bg-zinc-800"></div>
+                        <div class="mx-auto flex items-center gap-2 text-xs text-zinc-500 font-light font-mono">
+                            <iconify-icon icon="solar:lock-keyhole-linear"></iconify-icon>
+                            douglas.dns/console
+                        </div>
+                    </div>
+                    <div class="p-6 h-[300px] overflow-y-auto no-scrollbar flex flex-col gap-6 text-sm font-light">
+                        <!-- Chat Bubble User -->
+                        <div class="flex items-start gap-4 max-w-[80%] ml-auto">
+                            <div class="bg-zinc-800/50 border border-white/5 rounded-2xl rounded-tr-sm px-4 py-3 text-zinc-200">
+                                I need to connect my new domain to my Vercel project, but I also have Google Workspace for email.
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center shrink-0">
+                                <span class="text-xs font-medium text-white tracking-tighter">US</span>
+                            </div>
+                        </div>
+                        <!-- Chat Bubble AI -->
+                        <div class="flex items-start gap-4 max-w-[80%]">
+                            <div class="w-8 h-8 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center shrink-0">
+                                <span class="text-xs font-medium text-zinc-300 tracking-tighter">DD</span>
+                            </div>
+                            <div class="bg-transparent border border-white/5 rounded-2xl rounded-tl-sm px-4 py-3 text-zinc-300 flex flex-col gap-3">
+                                <p>I can set that up for you. Here is the configuration I will apply to <span class="text-zinc-100 font-mono text-xs bg-white/5 px-1 py-0.5 rounded">example.com</span>:</p>
+                                
+                                <div class="bg-black/50 border border-white/5 rounded-lg p-3 font-mono text-xs flex flex-col gap-2 text-zinc-400">
+                                    <div class="flex justify-between border-b border-white/5 pb-2 mb-1 text-zinc-500">
+                                        <span>Type</span><span>Name</span><span>Value</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-indigo-400">A</span><span>@</span><span>76.76.21.21</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-indigo-400">CNAME</span><span>www</span><span>cname.vercel-dns.com</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-emerald-400">MX</span><span>@</span><span>aspmx.l.google.com (1)</span>
+                                    </div>
+                                </div>
+                                <p>Would you like me to commit these changes?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Grid -->
+            <section id="features" class="max-w-7xl mx-auto px-6 mt-32">
+                <div class="mb-12">
+                    <h2 class="text-2xl font-medium tracking-tight text-zinc-100">Intelligent Infrastructure</h2>
+                    <p class="text-zinc-500 text-sm mt-2 font-light">Stop wrestling with zone files and propagation checkers.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Feature 1 -->
+                    <div class="p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors group">
+                        <div class="w-10 h-10 rounded-lg bg-zinc-900 border border-white/10 flex items-center justify-center mb-4 text-zinc-400 group-hover:text-zinc-100 transition-colors">
+                            <iconify-icon icon="solar:server-square-update-linear" width="20"></iconify-icon>
+                        </div>
+                        <h3 class="text-base font-medium text-zinc-200 mb-2">Automated Routing</h3>
+                        <p class="text-sm text-zinc-500 font-light leading-relaxed">
+                            Tell Douglas what service you're using. It automatically fetches and configures the correct A, CNAME, and TXT records.
+                        </p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors group">
+                        <div class="w-10 h-10 rounded-lg bg-zinc-900 border border-white/10 flex items-center justify-center mb-4 text-zinc-400 group-hover:text-zinc-100 transition-colors">
+                            <iconify-icon icon="solar:shield-warning-linear" width="20"></iconify-icon>
+                        </div>
+                        <h3 class="text-base font-medium text-zinc-200 mb-2">Error Prevention</h3>
+                        <p class="text-sm text-zinc-500 font-light leading-relaxed">
+                            Pre-flight checks analyze your existing zone file to prevent conflicting records, email deliverability issues, or downtime.
+                        </p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors group">
+                        <div class="w-10 h-10 rounded-lg bg-zinc-900 border border-white/10 flex items-center justify-center mb-4 text-zinc-400 group-hover:text-zinc-100 transition-colors">
+                            <iconify-icon icon="solar:global-linear" width="20"></iconify-icon>
+                        </div>
+                        <h3 class="text-base font-medium text-zinc-200 mb-2">Portfolio Management</h3>
+                        <p class="text-sm text-zinc-500 font-light leading-relaxed">
+                            Manage hundreds of domains across different registrars from a single conversational interface. Ask for expiration dates or transfer statuses.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-white/5 bg-[#0a0a0a]/80 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-2">
+                    <span class="text-zinc-400 font-medium text-sm tracking-tighter">DDNS</span>
+                    <span class="text-zinc-600 text-sm font-light">© 2024 Douglas Systems Inc.</span>
+                </div>
+                <div class="flex items-center gap-6 text-sm font-light text-zinc-500">
+                    <a href="#" class="hover:text-zinc-300 transition-colors">Twitter</a>
+                    <a href="#" class="hover:text-zinc-300 transition-colors">GitHub</a>
+                    <a href="#" class="hover:text-zinc-300 transition-colors">Terms</a>
+                    <a href="#" class="hover:text-zinc-300 transition-colors">Privacy</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- View: Login Page (Sign In) -->
+    <div id="login-page" class="hidden min-h-screen flex-col items-center justify-center relative z-20 px-6 w-full">
+        <button onclick="toggleView('landing')" class="absolute top-8 left-8 text-zinc-500 hover:text-zinc-200 flex items-center gap-2 text-sm font-light transition-colors group">
+            <iconify-icon icon="solar:arrow-left-linear" class="group-hover:-translate-x-1 transition-transform"></iconify-icon>
+            Back to home
+        </button>
+
+        <div class="w-full max-w-sm">
+            <!-- Logo -->
+            <div class="flex justify-center mb-10">
+                <span class="text-zinc-100 font-medium text-2xl tracking-tighter">DDNS</span>
+            </div>
+
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-xl font-medium tracking-tight text-zinc-100 mb-2">Sign in to your account</h1>
+                <p class="text-sm font-light text-zinc-400">Enter your details to access your dashboard.</p>
+            </div>
+
+            <!-- Auth Form -->
+            <form class="flex flex-col gap-5">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-medium text-zinc-300">Email address</label>
+                    <input type="email" placeholder="douglas@example.com" class="bg-white/5 border border-white/10 rounded-md px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all">
+                </div>
+                
+                <div class="flex flex-col gap-1.5">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-medium text-zinc-300">Password</label>
+                        <a href="#" class="text-xs font-light text-zinc-500 hover:text-zinc-300 transition-colors">Forgot password?</a>
+                    </div>
+                    <input type="password" placeholder="••••••••" class="bg-white/5 border border-white/10 rounded-md px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all">
+                </div>
+
+                <button type="button" class="w-full bg-zinc-100 text-black mt-2 py-2 rounded-md text-sm font-medium hover:bg-white transition-colors">
+                    Sign in
+                </button>
+            </form>
+
+            <div class="mt-6 flex items-center justify-center gap-4">
+                <div class="h-px bg-white/10 flex-grow"></div>
+                <span class="text-xs font-light text-zinc-500">or</span>
+                <div class="h-px bg-white/10 flex-grow"></div>
+            </div>
+
+            <!-- SSO Options -->
+            <div class="mt-6 flex flex-col gap-3">
+                <button type="button" class="w-full bg-transparent border border-white/10 text-zinc-300 py-2 rounded-md text-sm font-medium hover:bg-white/5 transition-colors flex items-center justify-center gap-2">
+                    <iconify-icon icon="solar:key-minimalistic-linear" width="18"></iconify-icon>
+                    Continue with SSO
+                </button>
+            </div>
+
+            <p class="mt-8 text-center text-xs font-light text-zinc-500">
+                Don't have an account? <button onclick="toggleView('signup')" class="text-zinc-300 hover:text-zinc-100 transition-colors font-medium">Sign up</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- View: Sign Up Page -->
+    <div id="signup-page" class="hidden min-h-screen flex-col items-center justify-center relative z-20 px-6 w-full">
+        <button onclick="toggleView('landing')" class="absolute top-8 left-8 text-zinc-500 hover:text-zinc-200 flex items-center gap-2 text-sm font-light transition-colors group">
+            <iconify-icon icon="solar:arrow-left-linear" class="group-hover:-translate-x-1 transition-transform"></iconify-icon>
+            Back to home
+        </button>
+
+        <div class="w-full max-w-sm">
+            <!-- Logo -->
+            <div class="flex justify-center mb-10">
+                <span class="text-zinc-100 font-medium text-2xl tracking-tighter">DDNS</span>
+            </div>
+
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-xl font-medium tracking-tight text-zinc-100 mb-2">Create your account</h1>
+                <p class="text-sm font-light text-zinc-400">Start managing your DNS with AI.</p>
+            </div>
+
+            <!-- Auth Form -->
+            <form class="flex flex-col gap-5">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-medium text-zinc-300">Full Name</label>
+                    <input type="text" placeholder="Douglas Adams" class="bg-white/5 border border-white/10 rounded-md px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all">
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-medium text-zinc-300">Email address</label>
+                    <input type="email" placeholder="douglas@example.com" class="bg-white/5 border border-white/10 rounded-md px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all">
+                </div>
+                
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-medium text-zinc-300">Password</label>
+                    <input type="password" placeholder="••••••••" class="bg-white/5 border border-white/10 rounded-md px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all">
+                </div>
+
+                <button type="button" class="w-full bg-zinc-100 text-black mt-2 py-2 rounded-md text-sm font-medium hover:bg-white transition-colors">
+                    Create account
+                </button>
+            </form>
+
+            <div class="mt-6 flex items-center justify-center gap-4">
+                <div class="h-px bg-white/10 flex-grow"></div>
+                <span class="text-xs font-light text-zinc-500">or</span>
+                <div class="h-px bg-white/10 flex-grow"></div>
+            </div>
+
+            <!-- SSO Options -->
+            <div class="mt-6 flex flex-col gap-3">
+                <button type="button" class="w-full bg-transparent border border-white/10 text-zinc-300 py-2 rounded-md text-sm font-medium hover:bg-white/5 transition-colors flex items-center justify-center gap-2">
+                    <iconify-icon icon="solar:key-minimalistic-linear" width="18"></iconify-icon>
+                    Sign up with SSO
+                </button>
+            </div>
+
+            <p class="mt-8 text-center text-xs font-light text-zinc-500">
+                Already have an account? <button onclick="toggleView('login')" class="text-zinc-300 hover:text-zinc-100 transition-colors font-medium">Sign in</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- Floating Chat Button -->
+    <a href="https://poe.com/Douglas-DNS" target="_blank" id="poe-chat-button" class="fixed bottom-4 left-4 bg-indigo-500 text-white p-3 rounded-full shadow-lg hover:bg-indigo-600 transition-colors z-40">
+        <iconify-icon icon="mdi:chat" width="24" height="24"></iconify-icon>
+    </a>
+
+    <!-- View Toggling Script -->
+    <script>
+        function toggleView(view) {
+            const landingPage = document.getElementById('landing-page');
+            const loginPage = document.getElementById('login-page');
+            const signupPage = document.getElementById('signup-page');
+            
+            // Hide all pages
+            landingPage.classList.add('hidden');
+            loginPage.classList.add('hidden');
+            loginPage.classList.remove('flex');
+            signupPage.classList.add('hidden');
+            signupPage.classList.remove('flex');
+            
+            // Show requested page
+            if (view === 'login') {
+                loginPage.classList.remove('hidden');
+                loginPage.classList.add('flex');
+            } else if (view === 'signup') {
+                signupPage.classList.remove('hidden');
+                signupPage.classList.add('flex');
+            } else {
+                landingPage.classList.remove('hidden');
+            }
+        }
+    </script>
+
+    <!-- Voiceflow Widget Script -->
+    <script type="text/javascript">
+      (function(d, t) {
+          var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+          v.onload = function() {
+            window.voiceflow.chat.load({
+              verify: { projectID: '69bc4760524933489cc3b5f5' },
+              url: 'https://general-runtime.voiceflow.com',
+              versionID: 'production',
+              voice: {
+                url: "https://runtime-api.voiceflow.com"
+              }
+            });
+          }
+          v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+      })(document, 'script');
+    </script>
+
+</body></html>
